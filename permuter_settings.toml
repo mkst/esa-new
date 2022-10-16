@@ -1,0 +1,4 @@
+compiler_type = "gcc"
+
+[decompme.compilers]
+"cpp" = "psyq4.6"

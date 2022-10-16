@@ -1,0 +1,67 @@
+#include "common.h"
+
+char D_800E5467;
+
+INCLUDE_ASM("asm/esa/nonmatchings/6FC84", func_8007F684);
+
+#if 0
+void func_8007F684(void) {
+    s16 temp_6;
+    s16 temp_7;
+    s32 temp_2;
+    u16 temp_3_2;
+    void *temp_2_2;
+    void *temp_3;
+    void *temp_3_3;
+    void *temp_5;
+
+    temp_5 = D_800E529C;
+    temp_2 = D_800E5144 * 0xD8;
+    (temp_2 + &D_8010CC50)->unkA4 = (u16) temp_5->unkBC;
+    temp_7 = (s16) temp_5->unkBC;
+    temp_3 = &D_8010CC50 + temp_2;
+    temp_3->unk88 = (s32) temp_7;
+    temp_6 = temp_5->unkBE;
+    temp_3->unk6C = (s32) temp_6;
+    func_8007F78C(temp_3, temp_5, temp_6, temp_7);
+    if (D_800E529C->unk90 != ELEPHANT) {
+        D_800E5274->unk328 = 0;
+    }
+    temp_3_2 = D_800E5467;
+    temp_2_2 = D_800E5274;
+    temp_2_2->unk32A = 0;
+    temp_2_2->unk32C = 0;
+    temp_2_2->unk32E = 0;
+    switch ((s16) temp_3_2) {
+    case 1:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+        break;
+    case 0:
+    case 2:
+        temp_3_3 = D_800E527C;
+        D_800E5274->unk322 = 0;
+        temp_3_3->unk28 = 0;
+        temp_3_3->unkE = (u16) (temp_3_3->unkE + 0x23);
+        break;
+    }
+}
+#endif

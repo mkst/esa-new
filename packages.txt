@@ -1,0 +1,8 @@
+dos2unix
+gcc-mips-linux-gnu
+less
+libstdc++6:i386
+make
+python3
+python3-pip
+wine32
