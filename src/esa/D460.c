@@ -3,6 +3,7 @@
 int D_800E4154 = 174823885; //0x0a6b99cd
 
 #if 0
+// v0/v1 swapped
 void func_8001CE60(void) {
     u32 temp_3 = D_800E4154 << 2;
     D_800E4154 = ((temp_3 + 2) * (temp_3 + 3)) >> 2;

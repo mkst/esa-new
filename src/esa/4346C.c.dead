@@ -1,0 +1,18 @@
+#include "common.h"
+
+extern u16 D_800E4BA8;
+extern s16 D_800E5324;
+
+// .sbss
+extern s8 D_800E4BB8; // 0xD51B8
+
+// .bss?
+extern s32 D_800E5368; // 0xD5968
+
+INCLUDE_ASM("asm/esa/nonmatchings/4346C", func_80052E6C);
+// void func_80052E6C(void) {
+//     D_800E5324 = 0;
+//     D_800E5368 = 0;
+//     D_800E4BA8 = (D_800E4BA8 + 4) & 0xFF;
+//     D_800E4BB8 += 1;
+// }

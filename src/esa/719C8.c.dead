@@ -1,0 +1,139 @@
+#include "common.h"
+
+s16 D_800E546C;
+u8  D_800E546E[6];
+s16 D_800E5474;
+u8  D_800E5476[6];
+s16 D_800E547C;
+
+// sssv:func_8032A710_73BDC0
+#if 0
+void func_800813C8(void) {
+    s16 temp_17;
+    s16 temp_5;
+    s16 temp_5_2;
+    s16 temp_5_3;
+    s32 temp_3_4;
+    s32 temp_5_6;
+    s32 temp_6;
+    s32 var_6;
+    s32 var_8;
+    struct000 *temp_10;
+    struct000 *temp_2_3;
+    struct000 *temp_2_6;
+    struct000 *temp_3;
+    struct000 *temp_3_2;
+    struct002 *temp_17_2;
+    struct002 *temp_2_4;
+    struct004 *temp_2_7;
+    struct005 *temp_2;
+    struct005 *temp_5_5;
+    u16 temp_7;
+    u8 temp_5_7;
+    void **temp_9;
+    void *temp_2_2;
+    void *temp_2_5;
+    void *temp_3_3;
+    void *temp_5_4;
+
+    temp_2 = D_800E5274;
+    temp_17 = temp_2->unk32E;
+    temp_2->unk340 = NULL;
+    func_8008175C();
+    temp_3 = D_800E73A8.animals[0].animal;
+    temp_9 = (temp_17 * 8) + &D_800E73A8.animals[0].animal;
+    temp_2_2 = *temp_9;
+    temp_5 = temp_2_2->unk14C;
+    temp_2_2->unk14C = (s16) temp_3->unk14C;
+    temp_3->unk14C = (u16) temp_5;
+    temp_5_2 = temp_2_2->unk300;
+    temp_2_2->unk300 = (s16) temp_3->unk300;
+    temp_3->unk300 = (u16) temp_5_2;
+    temp_5_3 = temp_2_2->unk304;
+    temp_2_2->unk304 = (s16) temp_3->unk304;
+    temp_3->unk44[6] = 0;
+    temp_3->unk304 = (u16) temp_5_3;
+    (*temp_9)->unk4A = 0;
+    temp_10 = D_800E73A8.animals[0].animal;
+    temp_6 = temp_10->unk4C;
+    temp_10->unk4C = (s32) ((temp_6 & 0xFBFFFFFF) | ((*temp_9)->unk4C & 0x04000000));
+    temp_5_4 = *temp_9;
+    temp_5_4->unk4C = (s32) ((temp_5_4->unk4C & 0xFBFFFFFF) | (temp_6 & 0x04000000));
+    temp_2_3 = D_800E73A8.animals[0].animal;
+    D_800E529C = (struct006 *) D_800E73A8.animals[0].unk0;
+    D_800E5284 = D_800E73A8.animals;
+    D_800E52A8 = temp_2_3;
+    D_800E5274 = (struct005 *) temp_2_3;
+    D_800E527C = (struct004 *) temp_2_3;
+    if (D_800E52A4 == 0) {
+        D_800E525C = 1;
+    } else {
+        D_800E525C = 0;
+    }
+    D_800E5284->unk0 = &D_800EA9E8;
+    temp_2_4 = (temp_17 * 8) + (&D_800EA9E8 + 0x540);
+    temp_3_2 = temp_2_4->animal;
+    D_800E52C8 = 0;
+    D_800E52D8 = 0;
+    D_800E52A4 = temp_17;
+    D_800E5284 = temp_2_4;
+    D_800E527C->unk16C = &D_800EA9E8;
+    D_800E52A8 = temp_3_2;
+    D_800E5274 = (struct005 *) temp_3_2;
+    D_800E527C = (struct004 *) temp_3_2;
+    D_800E529C = temp_2_4->unk0;
+    var_6 = 0;
+    if (temp_17 == temp_17) {
+        D_800E525C = 1;
+    } else {
+        D_800E525C = 0;
+    }
+    D_800E52C8 = temp_17;
+    D_800E52D8 = 0;
+    D_800E5274->unk386 = 1;
+    temp_5_5 = D_800E5274;
+    temp_5_5->unk348 = (u16) D_800E52C0;
+    temp_5_5->pad387[3] = 2;
+    var_8 = 0x10000;
+    D_800E527C->pad163[0] = D_800E73A8.animals[0].animal->unk44[0x11F];
+    D_800E527C->unk18C = (u8) D_800E73A8.animals[0].animal->unk44[0x148];
+    do {
+        temp_5_6 = var_8;
+        var_8 += 0x10000;
+        temp_3_3 = D_800E527C + var_6;
+        temp_2_5 = D_800E73A8.animals[0].animal + var_6;
+        var_6 = temp_5_6 >> 0x10;
+        temp_3_3->unk18D = (u8) temp_2_5->unk18D;
+    } while (var_6 < 4);
+    temp_17_2 = D_800E73A8.animals;
+    D_800E527C->unk18C = (u8) D_800E73A8.animals[0].animal->unk44[0x148];
+    temp_7 = temp_17_2[temp_17].unk0->unk90;
+    temp_3_4 = (s16) temp_7 * 2;
+    temp_5_7 = *(temp_3_4 + &D_800D8F60);
+    D_800E546C = temp_7;
+    D_800E547C = (s16) (s8) temp_5_7;
+    D_800E5474 = (s16) (s8) *(temp_3_4 + 1 + &D_800D8F60);
+    func_80081878((s16) temp_7, (s8) temp_5_7, &D_800D8F60, temp_7);
+    func_8007F278();
+    func_8007F684();
+    func_800463C4();
+    func_8004D86C(D_800E527C);
+    temp_2_6 = D_800E73A8.animals[0].animal;
+    D_800E5284 = temp_17_2;
+    D_800E529C = (struct006 *) D_800E73A8.animals[0].unk0;
+    D_800E52A8 = temp_2_6;
+    D_800E5274 = (struct005 *) temp_2_6;
+    D_800E527C = (struct004 *) temp_2_6;
+    if (D_800E52A4 == 0) {
+        D_800E525C = 1;
+    } else {
+        D_800E525C = 0;
+    }
+    temp_2_7 = D_800E527C;
+    D_800E52C8 = 0;
+    D_800E52D8 = 0;
+    play_sound_effect_at_location(0x28, temp_2_7->xPos, temp_2_7->zPos);
+}
+#else
+INCLUDE_ASM("asm/esa/nonmatchings/719C8", func_800813C8);
+#endif
