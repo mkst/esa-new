@@ -8,7 +8,7 @@ ESA_DIR         := $(ESA_BASENAME)
 
 ESA_ASM_DIR     := asm/$(ESA_DIR)
 ESA_ASM_DIRS    := $(ESA_ASM_DIR) $(ESA_ASM_DIR)/data \
-				   $(ESA_ASM_DIR)/libapi $(ESA_ASM_DIR)/libc $(ESA_ASM_DIR)/libc2 $(ESA_ASM_DIR)/libcd $(ESA_ASM_DIR)/libetc $(ESA_ASM_DIR)/libgpu $(ESA_ASM_DIR)/libgte $(ESA_ASM_DIR)/libmath $(ESA_ASM_DIR)/libspu $(ESA_ASM_DIR)/libsnd $(ESA_ASM_DIR)/libpad
+                   $(ESA_ASM_DIR)/libapi $(ESA_ASM_DIR)/libc $(ESA_ASM_DIR)/libc2 $(ESA_ASM_DIR)/libcd $(ESA_ASM_DIR)/libetc $(ESA_ASM_DIR)/libgpu $(ESA_ASM_DIR)/libgte $(ESA_ASM_DIR)/libmath $(ESA_ASM_DIR)/libspu $(ESA_ASM_DIR)/libsnd $(ESA_ASM_DIR)/libpad
 
 ESA_C_DIR       := src/$(ESA_DIR)
 ESA_C_DIRS      := $(ESA_C_DIR)
@@ -62,8 +62,8 @@ CC              := $(CC_PSYQ_46)
 SPLAT           := $(PYTHON) $(TOOLS_DIR)/splat/split.py
 
 
-CROSS_AS_FLAGS  := -G8 -march=r3000 -mtune=r3000 -Iinclude/
-PSYQ_AS_FLAGS   := -G8 -Iinclude/
+CROSS_AS_FLAGS  := -G0 -march=r3000 -mtune=r3000 -Iinclude/
+PSYQ_AS_FLAGS   := -G32 -Iinclude/
 AS_FLAGS         := $(PSYQ_AS_FLAGS)
 
 
@@ -76,7 +76,7 @@ ifdef PERMUTER
 CPP_FLAGS       += -DPERMUTER
 endif
 
-CC_FLAGS        := -G8 -fno-builtin -fsigned-char
+CC_FLAGS        := -G32 -fno-builtin -fsigned-char
 OPT_FLAGS       := -O2
 
 UNDEFINED_SYMS := memmove strlen
@@ -98,9 +98,11 @@ $(BUILD_DIR)/asm/esa/header.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
 
 # needs 0x10 alignment, otherwise might be a quick win
 
-$(BUILD_DIR)/asm/esa/data/rodata.rodata.s.o: AS := $(CROSS_AS)
-$(BUILD_DIR)/asm/esa/data/rodata.rodata.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
+$(BUILD_DIR)/asm/esa/data/800.rodata.s.o: AS := $(CROSS_AS)
+$(BUILD_DIR)/asm/esa/data/800.rodata.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
 
+# $(BUILD_DIR)/src/esa/4346C.c.o: AS := $(CROSS_AS)
+# $(BUILD_DIR)/src/esa/4346C.c.o: AS_FLAGS := $(CROSS_AS_FLAGS)
 
 # recipes
 
@@ -120,8 +122,8 @@ extract: $(ESA_BASENAME).yaml
 
 fixgp:
 	@echo "Stripping %got & %gp_rel from assembly..."
-	@grep -rlE '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/%(got|gp_rel)\(([^)]+)\)\(\$$28\)/\2/' 2>/dev/null || true
-	@grep -rl '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/\$$28, %(got|gp_rel)\(([^)]+)\)/\2/' 2>/dev/null || true
+	grep -rlE '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/%(got|gp_rel)\(([^)]+)\)\(\$$28\)/\2/' 2>/dev/null || true
+	grep -rlE '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/\$$28, %(got|gp_rel)\(([^)]+)\)/\2/' 2>/dev/null || true
 
 clean:
 	rm -rf $(BUILD_DIR) $(ESA_ASM_DIR) $(ESA_ASSETS_DIR)
@@ -136,7 +138,7 @@ $(ESA_TARGET).elf: $(ESA_O_FILES) $(LIBETC)
 $(BUILD_DIR)/%.s.o: %.s
 	$(UNIX2DOS) -q $<
 	$(AS) $(AS_FLAGS) $< -o $@.obj
-	if [[ "$$(dd if=$@.obj bs=1 skip=1 count=3 status=none)" = "ELF" ]] ; then cp $@.obj $@; else $(PSYQ2ELF) $@.obj -o $@ >/dev/null ; fi
+	if [[ "$$(head -c3 $@.obj)" = "LNK" ]] ; then $(PSYQ2ELF) $@.obj -o $@ >/dev/null ; else cp $@.obj $@; fi
 
 $(BUILD_DIR)/%.bin.o: %.bin
 	$(LD) -r -b binary -o $@ $<
@@ -144,7 +146,7 @@ $(BUILD_DIR)/%.bin.o: %.bin
 $(BUILD_DIR)/%.c.o: %.c
 	$(CPP) $(CPP_FLAGS) $(CPP_TARGET) $< | $(UNIX2DOS) | $(CC) $(CC_FLAGS) $(OPT_FLAGS) -o $@.s
 	$(AS) $(AS_FLAGS) $@.s -o $@.obj
-	if [[ "$$(dd if=$@.obj bs=1 skip=1 count=3 status=none)" = "ELF" ]] ; then cp $@.obj $@; else $(PSYQ2ELF) $@.obj -o $@ >/dev/null ; fi
+	if [[ "$$(head -c3 $@.obj)" = "LNK" ]] ; then $(PSYQ2ELF) $@.obj -o $@ >/dev/null ; else cp $@.obj $@; fi
 
 %.ok: %.dat
 	@echo "$$(cat $(notdir $(<:.dat=)).sha1)  $<" | sha1sum --check
