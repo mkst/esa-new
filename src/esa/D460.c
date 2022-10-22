@@ -12,10 +12,13 @@ void func_8001CE60(void) {
 INCLUDE_ASM("asm/esa/nonmatchings/D460", func_8001CE60);
 #endif
 
-
+#if 1
 void func_8001CE8C(s32 arg0) {
     if (arg0 == 0) {
         arg0 = rand();
     }
     D_800E4154 = arg0;
 }
+#else
+INCLUDE_ASM("asm/esa/nonmatchings/D460", func_8001CE8C);
+#endif

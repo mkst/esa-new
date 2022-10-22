@@ -1,0 +1,10 @@
+#include "common.h"
+
+s32 D_800E4FA8;
+s32 D_800E4FD8;
+INCLUDE_ASM("asm/esa/nonmatchings/BA4C", func_8001B44C);
+
+s32 D_800E4FCC;
+INCLUDE_ASM("asm/esa/nonmatchings/BA4C", func_8001B714);
+
+INCLUDE_ASM("asm/esa/nonmatchings/BA4C", play_sound_effect_at_location);

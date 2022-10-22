@@ -122,8 +122,9 @@ extract: $(ESA_BASENAME).yaml
 
 fixgp:
 	@echo "Stripping %got & %gp_rel from assembly..."
-	grep -rlE '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/%(got|gp_rel)\(([^)]+)\)\(\$$28\)/\2/' 2>/dev/null || true
-	grep -rlE '%(got|gp_rel)' asm/esa | xargs sed -i -E -s 's/\$$28, %(got|gp_rel)\(([^)]+)\)/\2/' 2>/dev/null || true
+	grep -rlE '%(got|gp_rel)' asm/esa/nonmatchings | xargs sed -i -E -s 's/%(got|gp_rel)\(([^)]+)\)\(\$$28\)/\2/' 2>/dev/null || true
+	grep -rlE '%(got|/gp_rel)' asm/esa/nonmatchings | xargs sed -i -E -s 's/\$$28, %(got|gp_rel)\(([^)]+)\)/\2/' 2>/dev/null || true
+	grep -rlEZ '%(got|gp_rel)' asm/esa | xargs --null python3 tools/fixgp.py || true
 
 clean:
 	rm -rf $(BUILD_DIR) $(ESA_ASM_DIR) $(ESA_ASSETS_DIR)

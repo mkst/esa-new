@@ -41,6 +41,8 @@ segments:
       - [0x800, bin] # rodata
       - [0x3CA0, bin] # rodata
       - [0x3D20, bin] # rodata
+      - [0x3DC8, bin] # rodata
+      - [0x4E28, bin]
       - [0x4EB0, bin] # rodata
       - [0x4FE0, bin] # rodata
       - [0x5300, bin] # rodata
@@ -48,60 +50,29 @@ segments:
       - [0x6C5C, bin]
       - [0x7650, bin] # was asm # maybe all handwritten?
       - [0x7B54, bin] # unsupported?
+      # --
       - [0xB7CC, c, B7CC]
       - [0xBA4C, bin] # gp_rel D_800E4FD8/D_800E4FA8
-      - [0xBD14, bin]
-      - [0xC000, bin]
       - [0xC278, asm]
       - [0xD460, c, D460]
       - [0xD4B4, c]
       - [0xD9D4, bin] # unknown reloc 30
-      - [0xDC40, bin] # gp_rel - D_800E4FB0 s8
+      - [0xDC40, bin] # includes 0xB7CC gp_rel - D_800E4FB0 s8
       - [0xDEF4, asm]
-      - [0xE8DC, bin]
+      - [0xE8DC, bin] # part of B7CC
       - [0xE9D0, asm]
       - [0xEBB4, asm]
-      - [0xED10, bin]
-      - [0xEE9C, asm]
-      - [0xEF84, bin]
-      - [0xF008, c]
-      - [0xF040, bin] # need libspu.h
-      - [0xF2E8, asm]
-      - [0xF32C, bin]
+      - [0xED10, asm]
       - [0xF43C, asm]
       - [0xF46C, asm]
       - [0xF4C4, asm]
-      - [0xF514, bin]
-      - [0xF594, bin]
-      - [0xF688, bin]
-      - [0xF6E4, bin]
-      - [0xF780, bin]
+      - [0xF514, asm]
       - [0xF7A0, asm]
       - [0xF7F8, asm] # empty
-      - [0xF800, bin]
-      - [0x102E8, bin]
+      - [0xF800, asm]
+      - [0x102E8, asm]
       - [0x105F4, asm]
-      - [0x11754, bin]
-      - [0x11ACC, asm]
-      - [0x11D50, bin]
-      - [0x13620, bin]
-      - [0x14DF8, bin]
-      - [0x164CC, bin]
-      - [0x1740C, bin]
-      - [0x17920, bin]
-      - [0x18430, bin]
-      - [0x1876C, bin]
-      - [0x187B0, bin]
-      - [0x187F4, bin]
-      - [0x18838, bin]
-      - [0x18938, bin]
-      - [0x18DB4, bin]
-      - [0x198B8, bin]
-      - [0x19A38, asm]
-      - [0x19CE8, bin]
-      - [0x19F34, bin]
-      - [0x19FF0, bin]
-      - [0x1A2D8, bin]
+      - [0x11754, asm]
       - [0x1A824, bin]
       - [0x1A9C0, bin]
       - [0x1A9D0, bin]
@@ -140,7 +111,6 @@ segments:
       - [0x29BE0, bin]
       - [0x29C1C, bin]
       - [0x29C58, asm]
-      # - [0x29DB0, asm]
       - [0x2A334, bin]
       - [0x2A358, bin]
       - [0x2A40C, bin]
@@ -168,13 +138,7 @@ segments:
       - [0x2B2E8, bin]
       - [0x2B314, bin]
       - [0x2B338, bin]
-      - [0x2B394, bin]
-      - [0x2B3F4, bin]
-      - [0x2B430, bin]
-      - [0x2B454, bin]
-      - [0x2B478, bin]
-      - [0x2B4BC, bin]
-      - [0x2B4F0, bin]
+      - [0x2B394, asm]
       - [0x2B520, bin]
       - [0x2B62C, bin]
       - [0x2B65C, bin]
@@ -292,43 +256,34 @@ segments:
       - [0x6C840, bin]
       - [0x6C998, asm]
       - [0x6D624, bin]
-      - [0x6DFD4, bin]
-      - [0x6E018, asm]
-      - [0x6E16C, bin]
+      - [0x6DFD4, asm]
+      # --
       - [0x6E37C, bin]
       - [0x6E3E8, bin]
       - [0x6E458, asm]
       - [0x6E4A4, bin]
-      - [0x6E554, bin]
-      - [0x6E5C4, bin]
-      - [0x6E670, bin]
-      - [0x6E768, bin]
-      - [0x6E7B4, bin]
-      - [0x6E83C, bin]
+      - [0x6E554, bin] # part of 0x6E3E8
+      - [0x6E5C4, bin] # part of 0x6E3E8
+      - [0x6E670, bin] # reloc 30
+      - [0x6E768, asm] # part of 0x6E3E8
+      - [0x6E7B4, asm] # part of 0x6E3E8
       - [0x6ECA0, asm]
-      - [0x6F6E0, bin]
-      - [0x6F878, bin]
-      - [0x6FC84, bin] # got
-      - [0x6FD8C, asm]
-      - [0x70390, bin] # needs AT
-      - [0x7120C, asm]
-      - [0x719C8, bin] # gp_rel / needs AT
-      - [0x71D5C, asm]
-      - [0x71DB4, bin] # load_animal (needs AT)
-      - [0x71FB0, bin] # gp_rel
+      - [0x6F6E0, asm]
+      - [0x71FB0, bin] # reloc 30
       - [0x72050, c] # recharge_skill
       - [0x7209C, asm]
-      - [0x741F0, bin]
-      - [0x742B8, bin]
+      - [0x741F0, asm]
       - [0x742E8, asm]
-      - [0x7462C, bin]
+      # -- doesnt match if combined
+      - [0x7462C, bin] # Use of AT register without noat set
       - [0x74FB8, bin]
       - [0x74FEC, bin]
       - [0x751E4, asm]
-      - [0x77A40, bin]
-      - [0x780D0, bin] # got
+      - [0x77A40, asm]
+      # --
+      - [0x780D0, asm] # got
       - [0x78868, c]
-      - [0x78AF4, bin] # gprel/got
+      - [0x78AF4, asm]
       - [0x79100, c]
       - [0x7A6AC, c, rat]
       - [0x7B034, c, fox]
@@ -357,45 +312,42 @@ segments:
       - [0x8F850, c, seagull]
       - [0x90924, c, parrot]
       - [0x90D0C, c]
-      - [0x910DC, bin] # got from here
-      - [0x92C98, bin] # gp_rel
+      - [0x910DC, asm]
+      - [0x92C98, bin] # reloc 30
       - [0x938EC, asm]
       - [0x9C208, asm, libetc/intr] # intr.o, ResetCallback
-      - [0x9C7F0, bin]
+      - [0x9C7F0, asm]
       - [0x9C8BC, asm]
-      - [0x9FADC, bin]
+      - [0x9FADC, asm]
       - [0xA0934, asm]
       - [0xA3078, asm, libapi/c81]
       - [0xA3088, bin, sprintf] # libc2, does not OK as asm
-      - [0xA3908, bin]
+      - [0xA3908, bin] # reloc 30
       - [0xA3DD0, asm]
-      - [0xA3E60, bin] # nope
+      - [0xA3E60, asm]
+      - [0xA4094, bin] # more TODO here
       - [0xA61F4, asm, libgte/mtx_06]
       - [0xA6254, asm, abs]
       - [0xA6268, asm, event]
       - [0xA63B8, asm, libgpu/p41]
-      - [0xA6458, bin] # gp_rel
+      - [0xA6458, asm] # gp_rel
       - [0xA6ADC, asm]
       - [0xA6BE0, asm, libgpu/p16]
-      - [0xA6C00, bin, entrypoint]
+      - [0xA6C00, bin, entrypoint] # reloc 30
       - [0xA6CDC, bin] # reloc 30
       - [0xA73A0, asm]
       - [0xA74BC, asm, libgte/rmat_00]
       - [0xA76BC, asm]
       - [0xA77D4, asm, libc2/memset]
-      - [0xA7804, bin]
+      - [0xA7804, bin] # noat?
       - [0xA7894, bin]
       - [0xA82D0, asm]
-      - [0xA83B8, bin]
-      - [0xA847C, bin]
-      - [0xA84D4, bin]
-      - [0xA88E4, bin]
-      - [0xA89A4, bin]
-      - [0xA8A00, bin]
-      - [0xA8B1C, bin]
-      - [0xA8B44, bin]
-      - [0xA8B84, bin]
-      - [0xA8C78, bin]
+      - [0xA83B8, bin] # shared
+      - [0xA847C, bin] # reloc 30
+      - [0xA84D4, bin] # part of 0xA7894
+      - [0xA88E4, bin] # reloc 30
+      - [0xA89A4, bin] # reloc 30
+      - [0xA8A00, asm] # part of 0xA7894
       - [0xA8E80, asm, libgpu/p06]
       - [0xA8EC0, asm, libetc/vmode]
       - [0xA8ED4, asm, libsnd/ssvm_2] # or libgs/gs_125?
@@ -551,7 +503,7 @@ segments:
       # - [0xD55A4, bin]
       - [0xD55B0, .sbss, B7CC]
       - [0xD55C0, bin] #
-      - [0xD55EC, .sbss, F008] # D_800E4FEC
+      # - [0xD55EC, .sbss, F008] # D_800E4FEC
       - [0xD55F0, bin] # D_800E4FEC
       - [0xD5968, bin] # .sdata 4346C
       - [0xD596C, bin]
