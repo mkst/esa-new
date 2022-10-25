@@ -63,7 +63,7 @@ SPLAT           := $(PYTHON) $(TOOLS_DIR)/splat/split.py
 
 
 CROSS_AS_FLAGS  := -G0 -march=r3000 -mtune=r3000 -Iinclude/
-PSYQ_AS_FLAGS   := -G32 -Iinclude/
+PSYQ_AS_FLAGS   := -G8 -Iinclude/
 AS_FLAGS         := $(PSYQ_AS_FLAGS)
 
 
@@ -76,7 +76,7 @@ ifdef PERMUTER
 CPP_FLAGS       += -DPERMUTER
 endif
 
-CC_FLAGS        := -G32 -fno-builtin -fsigned-char
+CC_FLAGS        := -G8 -fno-builtin -fsigned-char
 OPT_FLAGS       := -O2
 
 UNDEFINED_SYMS := memmove strlen
@@ -98,8 +98,8 @@ $(BUILD_DIR)/asm/esa/header.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
 
 # needs 0x10 alignment, otherwise might be a quick win
 
-$(BUILD_DIR)/asm/esa/data/800.rodata.s.o: AS := $(CROSS_AS)
-$(BUILD_DIR)/asm/esa/data/800.rodata.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
+$(BUILD_DIR)/asm/esa/data/%.rodata.s.o: AS := $(CROSS_AS)
+$(BUILD_DIR)/asm/esa/data/%.rodata.s.o: AS_FLAGS := $(CROSS_AS_FLAGS)
 
 # $(BUILD_DIR)/src/esa/4346C.c.o: AS := $(CROSS_AS)
 # $(BUILD_DIR)/src/esa/4346C.c.o: AS_FLAGS := $(CROSS_AS_FLAGS)
