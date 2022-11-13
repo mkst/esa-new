@@ -13,7 +13,7 @@ void func_800A05EC(void) {
 void func_800A0678(void) {
     func_8006309C(15, D_800E5274);
     load_animal(PARROT);
-    play_sound_effect_at_location(141, D_800E527C->xPos, D_800E527C->zPos);
+    play_sound_effect_at_location(141, D_800E527C->xPos.h[1], D_800E527C->zPos.h[1]);
 }
 
 void parrot_fly(void) {

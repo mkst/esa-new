@@ -5,6 +5,7 @@ func_8004E044                    = 0x8004E044; // type:func
 fire_homing_missile              = 0x80056BA8;
 spawn_temporary_object           = 0x80056E34;
 func_80057028                    = 0x80057028; // type:func
+spawn_animal                     = 0x8005FCB4;
 func_8006C510                    = 0x8006C510; // type:func
 load_animal                      = 0x800817B4;
 recharge_skill                   = 0x80081A50;
@@ -200,6 +201,8 @@ WaitEvent                        = 0x800C6EA4;
 setRC2wait                       = 0x800C6F84;
 chkRC2wait                       = 0x800C6FA4;
 write                            = 0x800C7674;
+
+gCurrentAnimalIndex              = 0x800E52A4;
 
 //LoadAndExecute                   = 0x800B2A78;
 //CdInit2                          = 0x800B8D00;
