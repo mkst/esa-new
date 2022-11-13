@@ -76,8 +76,8 @@ def fixgp(asm_file, tu_vars):
                 res.append(line)
                 continue
             # lw         $3, %gp_rel(D_800E4154)($28)
-            if ((match := re.match(r"^(\w+)\s+(\$\d+), *%gp_rel\((\w+)\).*$", line)) or
-                (match := re.match(r"^(\w+)\s+(\$\d+), *\$\d+, *%gp_rel\((\w+)\).*$", line))):
+            if ((match := re.match(r"^(\w+)\s+(\$\d+), *%gp_rel\(([^\)]+)\).*$", line)) or
+                (match := re.match(r"^(\w+)\s+(\$\d+), *\$\d+, *%gp_rel\(([^\)]+)\).*$", line))):
                 op = match.group(1)
                 reg = match.group(2)
                 var = match.group(3)
@@ -105,7 +105,7 @@ def fixgp(asm_file, tu_vars):
 
     return funcs
 
-def write_funcs_to_file(asm_file, funcs):
+def write_funcs_to_file(asm_file, funcs, symbol_map):
     out_lines = []
 
     rdata_start = 0x80010200 - VRAM_OFFSET
@@ -127,10 +127,11 @@ def write_funcs_to_file(asm_file, funcs):
             out_lines.append(".set at")
         out_lines.append(f".globl {name}")
         # --
-        keys = sorted(list(vars.keys()), key=lambda x: int(x[2:], 16))
+        keys = sorted(list(vars.keys()), key=lambda x: symbol_map.get(x) or int(x, 16))
         for var in keys:
             size = vars[var]
-            rom_offset = int(var[2:], 16) - VRAM_OFFSET
+            vram_offset = symbol_map.get(var) or int(var, 16)
+            rom_offset = vram_offset - VRAM_OFFSET
             var_size = SIZES[size]
             # TODO: fix sdata
             # if rom_offset < sbss_start:
@@ -150,8 +151,23 @@ def write_funcs_to_file(asm_file, funcs):
         f.write("\r\n")
 
 def main():
+    symbol_map = {}
+
     if len(sys.argv) > 1:
         asm_files = sys.argv[1:]
+
+        with open("symbol_addrs.esa.txt") as f:
+            symbol_addrs = f.readlines()
+
+        for line in symbol_addrs:
+            line = line.strip()
+            if line.startswith("//"):
+                continue
+            if len(line) == 0:
+                continue
+            good, *_ = line.split(";")
+            func, addr = good.split("=")
+            symbol_map[func.strip()] = int(addr.strip(), 16)
 
         tu_vars = []
         last_parent = None
@@ -160,7 +176,7 @@ def main():
             if current_parent != last_parent or asm_file.find("nonmatchings") == -1:
                 tu_vars = []
             funcs = fixgp(asm_file, tu_vars)
-            write_funcs_to_file(asm_file, funcs)
+            write_funcs_to_file(asm_file, funcs, symbol_map)
             last_parent = current_parent
 
 

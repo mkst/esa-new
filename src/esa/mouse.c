@@ -18,18 +18,18 @@ void func_8008F7DC(void) {
                     ((D_800E52E0 * (1 / 60.0)) + 0.7) * 14848.0,
                     0,
                     ((D_800E52E0 * (1 / 30.0)) + 1.0),
-                    D_800E527C->xPos,
-                    D_800E527C->zPos,
-                    D_800E527C->yPos);
+                    D_800E527C->xPos.h[1],
+                    D_800E527C->zPos.h[1],
+                    D_800E527C->yPos.h[1]);
             }
         }
     }
     if (D_800E525C == 0) {
         if (D_800E5274->unk38E != 0) {
             create_particle_effect(
-                D_800E527C->xPos,
-                D_800E527C->zPos,
-                D_800E527C->yPos + (D_800E527C->unk42 >> 2),
+                D_800E527C->xPos.h[1],
+                D_800E527C->zPos.h[1],
+                D_800E527C->yPos.h[1] + (D_800E527C->unk42 >> 2),
                 SSSV_RAND(2) + 25,
                 (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),
                 (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),
@@ -109,7 +109,7 @@ void func_8008FB50(void) {
     case 46:
         temp_v1_3 = D_800E52C0 - D_800E5274->unk34A;
         if (temp_v1_3 == 1) {
-            play_sound_effect_at_location(0x56, D_800E527C->xPos, D_800E527C->zPos);
+            play_sound_effect_at_location(0x56, D_800E527C->xPos.h[1], D_800E527C->zPos.h[1]);
         }
         if (temp_v1_3 < 7) {
             if (temp_v1_3 < 4) {
@@ -119,9 +119,9 @@ void func_8008FB50(void) {
             }
 
             create_particle_effect(
-                D_800E527C->xPos + (((D_800CA604[D_800E5274->unk322 & 0xFF] >> 7) * 3) >> 5),
-                D_800E527C->zPos + (((D_800CA604[(D_800E5274->unk322 + 0x40) & 0xFF] >> 7) * 3) >> 5),
-                D_800E527C->yPos + 0xA,
+                D_800E527C->xPos.h[1] + (((D_800CA604[D_800E5274->unk322 & 0xFF] >> 7) * 3) >> 5),
+                D_800E527C->zPos.h[1] + (((D_800CA604[(D_800E5274->unk322 + 0x40) & 0xFF] >> 7) * 3) >> 5),
+                D_800E527C->yPos.h[1] + 0xA,
                 0x58,
                 D_800E527C->xVel,
                 D_800E527C->zVel,
@@ -187,14 +187,14 @@ void func_80090038(void) {
         func_80076D94();
         // this function is stubbed out
         func_800ABBB0(
-            D_800E527C->xPos * 2,
-            D_800E527C->yPos * 2,
-            D_800E527C->zPos * 2);
+            D_800E527C->xPos.h[1] * 2,
+            D_800E527C->yPos.h[1] * 2,
+            D_800E527C->zPos.h[1] * 2);
 
         create_particle_effect(
-            D_800E527C->xPos,
-            D_800E527C->zPos,
-            D_800E527C->yPos + (D_800E527C->unk42 >> 2),
+            D_800E527C->xPos.h[1],
+            D_800E527C->zPos.h[1],
+            D_800E527C->yPos.h[1] + (D_800E527C->unk42 >> 2),
             SSSV_RAND(2) + 25,
             (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),
             (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),
@@ -206,14 +206,14 @@ void func_80090038(void) {
     } else {
         func_80076D60(16);
         func_800ABBB0(
-            D_800E527C->xPos * 2,
-            D_800E527C->yPos * 2,
-            D_800E527C->zPos * 2);
+            D_800E527C->xPos.h[1] * 2,
+            D_800E527C->yPos.h[1] * 2,
+            D_800E527C->zPos.h[1] * 2);
 
         create_particle_effect(
-            D_800E527C->xPos,
-            D_800E527C->zPos,
-            D_800E527C->yPos + (D_800E527C->unk42 >> 2),
+            D_800E527C->xPos.h[1],
+            D_800E527C->zPos.h[1],
+            D_800E527C->yPos.h[1] + (D_800E527C->unk42 >> 2),
             SSSV_RAND(2) + 25,
             (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),
             (SSSV_RAND(32768) * 2) - FTOFIX32(0.6103515625),

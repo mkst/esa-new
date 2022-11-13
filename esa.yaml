@@ -12,14 +12,13 @@ options:
   # disasm/linker
   gp_value: 0x800E4090
   symbol_addrs_path:    symbol_addrs.esa.txt
-  undefined_syms_path:  undefined_syms.esa.txt
   undefined_funcs_auto_path: undefined_funcs_auto.esa.txt
   undefined_syms_auto_path:  undefined_syms_auto.esa.txt
 
   find_file_boundaries: yes
 
   use_legacy_include_asm: no
-  migrate_rodata_to_functions: no
+  migrate_rodata_to_functions: yes
 
   auto_decompile_empty_functions: no
 
@@ -38,22 +37,47 @@ segments:
     vram:  0x80010200
     subalign: 4  # urgh
     subsegments:
-      - [0x800, rodata] # rodata
-      - [0x3CA0, rodata] # rodata
-      - [0x3D20, bin] # rodata
-      - [0x3DC8, rodata] # rodata
+      - [0x800, rodata]
+      - [0xE94, rodata, BA4C]
+      - [0xEA4, rodata, C278]
+      - [0x344C, rodata, F800]
+      - [0x34F0, rodata, 11754]
+      - [0x3CA0, rodata]
+      - [0x3D20, bin] # rodata ... (.rodata+0x68): undefined reference to `L80030E14'
+      - [0x3DC8, rodata]
+      - [0x3DEC, .rodata, 2A334]
+      - [0x4E14, rodata, 37658]
       - [0x4E28, rodata]
-      - [0x4EB0, rodata] # rodata
-      - [0x4FE0, rodata] # rodata
-      - [0x5300, rodata] # rodata
-      - [0x548C, rodata]
+      - [0x4EB0, rodata]
+      - [0x4FE0, rodata]
+      - [0x5300, rodata]
+      - [0x548C, rodata, 4C61C]
+      - [0x56AC, .rodata, 5073C]
+      - [0x57D4, rodata] # 51374
       - [0x582C, rodata]
       - [0x585C, rodata]
       - [0x596C, rodata]
       - [0x5ACC, rodata]
       - [0x5AFC, rodata]
-      - [0x5B2C, rodata]
+      - [0x5B2C, rodata, 57EAC]
+      - [0x5B40, rodata, 66E64]
+      - [0x5B58, rodata, 67360]
+      - [0x5B6C, rodata, 67FAC]
+      - [0x5C14, rodata, 6C998]
+      # - [0x5C30, rodata, 6E7B4]
+      - [0x5C58, rodata, 6F6E0]
+      - [0x5E64, rodata, 77A40]
+      - [0x5EF4, .rodata, 78868]
+      - [0x5FD4, .rodata, sheep]
+      - [0x5FE8, .rodata, polar_bear]
+      - [0x5FFC, .rodata, 90D0C]
+      - [0x60A4, rodata, 910DC]
+      - [0x612C, rodata, 938EC]
       - [0x65BC, rodata]
+      - [0x6608, rodata, intr]
+      - [0x667C, rodata, A0934]
+      - [0x696C, rodata, event]
+      - [0x69DC, rodata, vsync]
       - [0x69FC, rodata]
       - [0x6C2C, lib, libetc, intr_dma, .rdata]
       - [0x6C5C, bin]
@@ -118,7 +142,7 @@ segments:
       - [0x29B0C, asm]
       - [0x29BE0, asm]
       - [0x29C58, asm]
-      - [0x2A334, asm]
+      - [0x2A334, c] # overlay2_6B5380
       - [0x37658, asm]
       - [0x377D8, asm]
       - [0x3CDB4, asm]
@@ -139,6 +163,8 @@ segments:
       - [0x4FEF8, asm]
       - [0x502B4, asm]
       - [0x506E0, asm]
+      - [0x5073C, c]
+      - [0x51374, asm] # could be part of 0x5073C, tbd
       - [0x52A54, bin] # reloc 30
       - [0x534B0, bin] # reloc 30
       - [0x53778, asm]
@@ -178,6 +204,7 @@ segments:
       - [0x6E7B4, asm] # part of 0x6D624
       - [0x6ECA0, asm]
       - [0x6F6E0, asm]
+      - [0x719C8, bin]
       - [0x71FB0, bin] # reloc 30
       - [0x72050, c] # recharge_skill
       - [0x7209C, asm]
@@ -228,12 +255,12 @@ segments:
       - [0x9C7F0, asm]
       - [0x9C8BC, asm]
       - [0x9FADC, asm]
-      - [0xA0934, asm]
+      - [0xA0934, asm] # needs more splits
       - [0xA3078, asm, libapi/c81]
       - [0xA3088, bin, sprintf] # libc2, does not OK as asm
       - [0xA3908, bin] # reloc 30
       - [0xA3DD0, asm]
-      - [0xA3E60, asm]
+      - [0xA3E60, c]
       - [0xA4094, bin] # more TODO here
       - [0xA61F4, asm, libgte/mtx_06]
       - [0xA6254, asm, abs]
@@ -400,13 +427,19 @@ segments:
       - [0xB5CEC, asm]
       - [0xB68DC, asm]
       - [0xB736C, asm]
-      - [0xB7C74, bin, data] # data from here
+      # .data
+      - [0xB7C74, bin, B7C74] # data from here
       - [0xCED58, lib, libetc, intr_dma, .data]
-      - [0xCED88, bin]
+      - [0xCED88, bin, CED88]
+      # .sdata (?)
+      - [0xD4690, bin]
       - [0xD4754, .sdata, D460]
       - [0xD4758, bin]
       - [0xD51B8, bin, 4346C_bss] # tbd
       - [0xD51BC, bin]
+      - [0xD522C, .data, A3E60]
+      - [0xD5254, bin] # more data
+      # .sbss
       - [0xD551C, bin, sbss]
       # - [0xD55A0, .sbss, 78AF4] # fixme
       # - [0xD55A4, bin]
@@ -418,6 +451,10 @@ segments:
       - [0xD596C, bin]
       - [0xD5A6C, bin] #.sdata, 719C8]
       - [0xD5A80, bin] # D_800E5480
+      # - [0xD6478, .sdata, A3E60] # only 6 bytes
+      - [0xD6480, bin]
+      # - [0xD64C8, .sbss, A3E60] # A3E60 sbss?
+      - [0xD64D0, bin] # A3E60 sbss?
       - [0xD6520, bin] # more .sbss?
       - [0xD6530, bin] # more .sbss?
       - [0x11C3DC, bin, heap]
