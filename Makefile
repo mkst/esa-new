@@ -29,6 +29,7 @@ ESA_O_FILES     := $(foreach file,$(ESA_S_FILES),$(BUILD_DIR)/$(file).o) \
 
 MAKE            := make
 PYTHON          := python3
+GCC             := gcc
 WINE            := wine
 SED             := sed
 UNIX2DOS        := unix2dos
@@ -79,10 +80,12 @@ endif
 CC_FLAGS        := -G8 -fno-builtin -fsigned-char
 OPT_FLAGS       := -O2
 
+CHECK_WARNINGS  := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+CC_CHECK        := $(GCC) -fsyntax-only -fno-builtin -fsigned-char -std=gnu90 -m32 $(CHECK_WARNINGS) $(CPP_FLAGS)
+
 UNDEFINED_SYMS := memmove strlen
 
-LD_FLAGS_EXTRA  = -Llib -letc -lc
-#-lc2 -lcd -lmath
+LD_FLAGS_EXTRA  = -Llib -letc -lc -lapi
 LD_FLAGS_EXTRA += $(foreach sym,$(UNDEFINED_SYMS),-u $(sym))
 
 ESA_LD_FLAGS    := -Map $(ESA_TARGET).map -T $(ESA_BASENAME).ld \
@@ -122,8 +125,12 @@ extract: $(ESA_BASENAME).yaml
 
 fixgp:
 	@echo "Stripping %got & %gp_rel from assembly..."
+	# less simple
+	grep -rlEZ '%(got|gp_rel)' asm/esa/nonmatchings/910DC | xargs --null python3 tools/fixgp.py || true
+	# simple
 	grep -rlE '%(got|gp_rel)' asm/esa/nonmatchings | xargs sed -i -E -s 's/%(got|gp_rel)\(([^)]+)\)\(\$$28\)/\2/' 2>/dev/null || true
 	grep -rlE '%(got|/gp_rel)' asm/esa/nonmatchings | xargs sed -i -E -s 's/\$$28, %(got|gp_rel)\(([^)]+)\)/\2/' 2>/dev/null || true
+	#
 	grep -rlEZ '%(got|gp_rel)' asm/esa | xargs --null python3 tools/fixgp.py || true
 
 clean:
@@ -145,6 +152,7 @@ $(BUILD_DIR)/%.bin.o: %.bin
 	$(LD) -r -b binary -o $@ $<
 
 $(BUILD_DIR)/%.c.o: %.c
+	@$(CC_CHECK) $<
 	$(CPP) $(CPP_FLAGS) $(CPP_TARGET) $< | $(UNIX2DOS) | $(CC) $(CC_FLAGS) $(OPT_FLAGS) -o $@.s
 	$(AS) $(AS_FLAGS) $@.s -o $@.obj
 	if [[ "$$(head -c3 $@.obj)" = "LNK" ]] ; then $(PSYQ2ELF) $@.obj -o $@ >/dev/null ; else cp $@.obj $@; fi

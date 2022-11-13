@@ -221,7 +221,7 @@ segments:
       - [0x8F850, c, seagull]
       - [0x90924, c, parrot]
       - [0x90D0C, c]
-      - [0x910DC, asm]
+      - [0x910DC, c]
       - [0x92C98, bin] # reloc 30
       - [0x938EC, asm]
       - [0x9C208, asm, libetc/intr] # intr.o, ResetCallback

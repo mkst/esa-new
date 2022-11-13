@@ -163,11 +163,13 @@ typedef struct {
     /* 0x340 */ struct007 *unk340;
     /* 0x344 */ u8  pad344[0x6];
     /* 0x34A */ u16 unk34A;
-    /* 0x34C */ u8  pad34C[0x2C];
+    /* 0x34C */ u8  pad34C[0x8];
+    /* 0x354 */ u16 unk354;
+    /* 0x358 */ u8  pad356[0x22];
     /* 0x378 */ s16 unk378;
     /* 0x37A */ u8  pad37A[0x9];
     /* 0x383 */ u8  unk383;
-    /* 0x384 */ u8  pad384;
+    /* 0x384 */ u8  unk384;
     /* 0x385 */ u8  unk385;
     /* 0x386 */ u8  unk386;
     /* 0x387 */ u8  pad387[0x7];
